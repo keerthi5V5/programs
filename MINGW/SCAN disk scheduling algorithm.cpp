@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_REQUESTS 1000
+void sort(int arr[], int n) {
+for (int i = 0; i < n - 1; i++) {
+for (int j = 0; j < n - i - 1; j++) {
+if (arr[j] > arr[j + 1]) {
+int temp = arr[j];
+arr[j] = arr[j + 1];
+arr[j + 1] = temp;
+}
+}
+}
+}
+int SCAN(int queue[], int head, int size, int direction) {
+int totalMovement = 0;
+int currentIndex = 0;
+int i;
+if (direction == 1) { 
+for (i = 0; i < size; i++) {
+if (queue[i] >= head) {
+currentIndex = i;
+break;
+}
+}
+} else { 
+for (i = size - 1; i >= 0; i--) {
+if (queue[i] <= head) {
+currentIndex = i;
+break;
+}
+}
+}
+for (i = currentIndex; i < size; i++) {
+totalMovement += abs(queue[i] - head);
+head = queue[i];
+}
+if (direction == 1) {
+totalMovement += abs(head - 0);
+head = 0;
+for (i = currentIndex - 1; i >= 0; i--) {
+totalMovement += abs(queue[i] - head);
+head = queue[i];
+}
+} else {
+totalMovement += abs(head - 0); 
+head = 0;
+for (i = currentIndex + 1; i < size; i++) {
+totalMovement += abs(queue[i] - head);
+head = queue[i];
+}
+}
+return totalMovement;
+}
+int main() {
+int n;
+printf("Enter the number of disk requests: ");
+scanf("%d", &n);
+int requestQueue[MAX_REQUESTS];
+printf("Enter the disk request queue:\n");
+for (int i = 0; i < n; i++) {
+scanf("%d", &requestQueue[i]);
+}
+int initialHead; 
+printf("Enter the initial position of the head: ");
+scanf("%d", &initialHead);
+int direction; 
+printf("Enter the direction of head movement (1 for towards higher cylinder numbers, 0 for towards lower cylinder numbers): ");
+scanf("%d", &direction);
+sort(requestQueue, n); 
+int totalHeadMovement = SCAN(requestQueue, initialHead, n, direction);
+printf("Total head movement: %d\n", totalHeadMovement);
+return 0;
+}
