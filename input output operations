@@ -1,0 +1,47 @@
+#include <stdio.h>
+
+// Function to calculate disk I/O operations for contiguous allocation
+int contiguousIO(int blockToAdd) {
+    // For contiguous allocation, only one disk I/O operation is needed to write the block
+    return 1;
+}
+
+// Function to calculate disk I/O operations for linked allocation
+int linkedIO(int blockToAdd, int totalBlocks) {
+    // For linked allocation, we need to traverse the linked list until the blockToAdd or end of file
+    // So, the number of disk I/O operations is equal to the number of blocks to traverse + 1 (to write the blockToAdd)
+    return blockToAdd + 1;
+}
+
+// Function to calculate disk I/O operations for indexed allocation
+int indexedIO(int blockToAdd, int totalBlocks) {
+    // For indexed allocation, we need one disk I/O operation to read the index block
+    // Then, one disk I/O operation to write the index block if it's modified
+    // Finally, one disk I/O operation to write the actual block
+    return 3;
+}
+
+int main() {
+    int totalBlocks = 100;
+    int blockToAdd;
+
+    // Test Case a: The block is added at the beginning.
+    blockToAdd = 0;
+    printf("Contiguous allocation: %d disk I/O operations\n", contiguousIO(blockToAdd));
+    printf("Linked allocation: %d disk I/O operations\n", linkedIO(blockToAdd, totalBlocks));
+    printf("Indexed allocation: %d disk I/O operations\n", indexedIO(blockToAdd, totalBlocks));
+
+    // Test Case b: The block is added in the middle.
+    blockToAdd = totalBlocks / 2;
+    printf("\nContiguous allocation: %d disk I/O operations\n", contiguousIO(blockToAdd));
+    printf("Linked allocation: %d disk I/O operations\n", linkedIO(blockToAdd, totalBlocks));
+    printf("Indexed allocation: %d disk I/O operations\n", indexedIO(blockToAdd, totalBlocks));
+
+    // Test Case c: The block is added at the end.
+    blockToAdd = totalBlocks - 1;
+    printf("\nContiguous allocation: %d disk I/O operations\n", contiguousIO(blockToAdd));
+    printf("Linked allocation: %d disk I/O operations\n", linkedIO(blockToAdd, totalBlocks));
+    printf("Indexed allocation: %d disk I/O operations\n", indexedIO(blockToAdd, totalBlocks));
+
+    return 0;
+}
